@@ -1,10 +1,9 @@
 package entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -12,13 +11,17 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class Office {
+public class Office {
     @Id
     @GeneratedValue
     private long id;
     private String name;
     private String address;
     private String city;
+
+    @NonNull
+    @OneToMany(mappedBy = "office", cascade = CascadeType.ALL)
+    private Set<WorkStation> workStations;
 
     public Office(String name, String address, String city) {
         this.name = name;

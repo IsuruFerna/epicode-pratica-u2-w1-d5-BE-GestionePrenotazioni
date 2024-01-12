@@ -1,9 +1,6 @@
 package entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -12,7 +9,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkStation extends Office{
+public class WorkStation{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,10 +17,14 @@ public class WorkStation extends Office{
     private WorkStationType workStationType;
     private int maxOccupation;
 
-    public WorkStation(String name, String address, String city, String description, WorkStationType workStationType, int maxOccupation) {
-        super(name, address, city);
+    @ManyToOne
+    @JoinColumn(name = "office_id")
+    private Office office;
+
+    public WorkStation(String description, WorkStationType workStationType, int maxOccupation, Office office) {
         this.description = description;
         this.workStationType = workStationType;
         this.maxOccupation = maxOccupation;
+        this.office = office;
     }
 }
